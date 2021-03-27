@@ -19,8 +19,9 @@ Rede social corporativa para compartilhar filmes, séries e livros entre colabor
 git clone https://github.com/fgmw-adsMack/App_FSL.git
 cd App_FSL
 python3 -m venv .fsl
-source .fsl/bin/activate
-pip install -r requirements.t
+* Windows: .fsl\Scripts\activate
+* Linux\Mac: source .fsl/bin/activate
+pip install -r requirements.txt
 ```
 
 - Crie um .env com as variáveis de ambiente, considerando:
