@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Custom Style CSS -->
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+
+<body class="bg-fundo">
+  <div id="header">
+    <!-- Navbar-->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark" style="background-color: #212529;" aria-label="Ninth navbar example">
+      <div class="container-xl">
+        <a class="navbar-brand" href="{% url "index" %}">FSL</a>
+
+       {% if request.user.is_authenticated %}
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07XL" aria-controls="navbarsExample07XL" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample07XL">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-1">
+              <li class="nav-item">
+                <a {% if section == "home" %}
+                      class="nav-link active"
+                   {% else %}
+                      class="nav-link"
+                   {% endif %}
+                   href="{% url "home" %}">
+                  <span><i class="fa fa-home"></i></span>
+                  <span>Home<span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span><i class="fa fa-eye"></i></span>
+                  <span>Pesquisar</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span><i class="fa fa-folder-open-o"></i></span>
+                  <span>Cadastrar</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span><i class="fa fa-users"></i></span>
+                  <span class="badge rounded-pill badge-notification bg-danger">2</span>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                 <a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img
+                      src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg"
+                      class="rounded-circle"
+                      height="22"
+                      loading="lazy"
+                    />
+                    John
+                 </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown07XL">
+                  <li><a class="dropdown-item" href="#">Configurações</a></li>
+                  <li><a class="dropdown-item" href="{% url "logout" %}">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <form>
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+          </form>
+
+        {% else %}
+          <div>
+            <a class="btn btn-outline-light me-2" href="#" role="button">Cadastrar-se</a>
+            <a class="btn btn-outline-warning" href="{% url "login" %}" role="button">Login</a>
+          </div>
+        {% endif %}
+        </div>
+      </nav>
+      <!-- Navbar -->
+  </div>
+  <div id="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+</body>
+</html>
