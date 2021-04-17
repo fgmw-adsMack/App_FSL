@@ -56,7 +56,12 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a {% if section == "register" %}
+                      class="nav-link active"
+                   {% else %}
+                      class="nav-link"
+                   {% endif %}
+                   href="{% url "register" %}">
                   <span><i class="fa fa-folder-open-o"></i></span>
                   <span>Cadastrar</span>
                 </a>
@@ -75,7 +80,7 @@
                       height="22"
                       loading="lazy"
                     />
-                    John
+                    {{ request.user.username }}
                  </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdown07XL">
                   <li><a class="dropdown-item" href="{% url "edit" %}">Configurações</a></li>
