@@ -3,9 +3,10 @@ from .models import Item
 
 
 class MovieCreateForm(forms.ModelForm):
+    item_type = forms.CharField(widget=forms.HiddenInput(),initial='movie')
     class Meta:
         model = Item
-        fields = ('title', 'director', 'cast', 'year', 'country')
+        fields = ('title', 'director', 'cast', 'year', 'country', 'item_type')
         labels = {
             'title': 'Título',
             'director': 'Diretor',
@@ -16,9 +17,10 @@ class MovieCreateForm(forms.ModelForm):
 
 
 class SeriesCreateForm(forms.ModelForm):
+    item_type = forms.CharField(widget=forms.HiddenInput(),initial='series')
     class Meta:
         model = Item
-        fields = ('title', 'director', 'cast', 'year', 'country', 'seasons')
+        fields = ('title', 'director', 'cast', 'year', 'country', 'seasons', 'item_type')
         labels = {
             'title': 'Título',
             'director': 'Diretor',
@@ -30,9 +32,11 @@ class SeriesCreateForm(forms.ModelForm):
 
 
 class BookCreateForm(forms.ModelForm):
+    item_type = forms.CharField(widget=forms.HiddenInput(),initial='book')
+    #item_type = forms.CharField(initial='book')
     class Meta:
         model = Item
-        fields = ('title', 'author', 'publisher', 'year', 'country')
+        fields = ('title', 'author', 'publisher', 'year', 'country', 'item_type')
         labels = {
             'title': 'Título',
             'author': 'Autor(es)',

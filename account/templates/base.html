@@ -55,16 +55,17 @@
                   <span>Pesquisar</span>
                 </a>
               </li>
-              <li class="nav-item">
-                <a {% if section == "register" %}
-                      class="nav-link active"
-                   {% else %}
-                      class="nav-link"
-                   {% endif %}
-                   href="{% url "register" %}">
-                  <span><i class="fa fa-folder-open-o"></i></span>
-                  <span>Cadastrar</span>
-                </a>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span><i class="fa fa-folder-open-o"></i></span>
+                    <span>Cadastrar</span>
+                 </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown07XL">
+                  <li><a class="dropdown-item" href="{% url "register_movie" %}">Filme</a></li>
+                  <li><a class="dropdown-item" href="{% url "register_series" %}">Serie</a></li>
+                  <li><a class="dropdown-item" href="{% url "register_book" %}">Livro</a></li>
+                </ul>
+
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
