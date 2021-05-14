@@ -2,6 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 from django.conf.urls import url
+from .views import ProfileDetailView
 
 urlpatterns = [
     path(
@@ -15,4 +16,5 @@ urlpatterns = [
     path('edit/', views.update_profile, name='edit'),
     url(r'^password/$', views.change_password, name='change_password'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('<slug:slug>', ProfileDetailView.as_view(), name='profile_detail'),
 ]

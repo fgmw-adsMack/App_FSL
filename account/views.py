@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 from .forms import UserCreateForm, ProfileCreateForm, ProfileEditForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
+from django.views.generic import DetailView
+from .models import Profile
 
 
 def index(request):
@@ -95,3 +97,8 @@ def change_password(request):
     return render(
         request, 'account/change_password.html', {'password_edit_form': form}
     )
+
+
+class ProfileDetailView(DetailView):
+    model = Profile
+    template_name = 'account/profile_detail.html'
