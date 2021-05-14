@@ -25,7 +25,6 @@ class Item(models.Model):
     )
     item_type = models.CharField(max_length=6, choices=TYPE_CHOICES)
     title = models.CharField(max_length=255)
-    #slug = models.SlugField(max_length=255, unique=True)
     year = models.IntegerField(validators=[MinValueValidator(1800),
                                            max_value_current_year])
     country = models.CharField(max_length=55,
