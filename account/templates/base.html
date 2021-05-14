@@ -55,11 +55,17 @@
                   <span>Pesquisar</span>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span><i class="fa fa-folder-open-o"></i></span>
-                  <span>Cadastrar</span>
-                </a>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span><i class="fa fa-folder-open-o"></i></span>
+                    <span>Cadastrar</span>
+                 </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown07XL">
+                  <li><a class="dropdown-item" href="{% url "register_movie" %}">Filme</a></li>
+                  <li><a class="dropdown-item" href="{% url "register_series" %}">Serie</a></li>
+                  <li><a class="dropdown-item" href="{% url "register_book" %}">Livro</a></li>
+                </ul>
+
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
@@ -75,7 +81,7 @@
                       height="22"
                       loading="lazy"
                     />
-                    John
+                    {{ request.user.username }}
                  </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdown07XL">
                   <li><a class="dropdown-item" href="{% url "edit" %}">Configurações</a></li>
