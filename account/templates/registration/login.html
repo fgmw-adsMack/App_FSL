@@ -8,22 +8,27 @@
       <div class="row">
           <div class="col-md-4 offset-md-4">
               <div class="bg-white mt-4 p-4 rounded shadow-sm">
+                <h1 class="h3 mb-3 fw-normal text-center">Log-in</h1>
                   <form action="{% url 'login' %}" method="post" class="row g-3">
                      {% csrf_token %}
+                     <div class="col-sm-12">
+                       {{ form.username|as_crispy_field }}
+                     </div>
+                     <div class="col-sm-12">
+                       {{ form.password|as_crispy_field }}
+                     </div>
                      <input type="hidden" name="next" value="{{ next }}"/>
-                      <h1 class="h3 mb-3 fw-normal text-center">Log-in</h1>
-                      {{ form|crispy }}
-                      <div class="col-12">
+                     <div class="col-sm-12 mb-4">
                           <div class="form-check">
                               <input class="form-check-input" type="checkbox" id="rememberMe">
                               <label class="form-check-label" for="rememberMe"> Lembrar de mim</label>
                           </div>
                       </div>
+                      <p></p>
                       <div class="col-12 text-center">
-                          <button type="submit" class="btn btn-dark">Login</button>
+                          <button type="submit" class="btn btn-info">Login</button>
                       </div>
                   </form>
-
                   <hr class="mt-4">
                   <div>
                       <p class="text-center mb-0">Novo em FSL? <a href="{% url "signup" %}">Cadastre-se</a></p>

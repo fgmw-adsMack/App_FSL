@@ -73,7 +73,7 @@ def update_profile(request):
     return render(
         request,
         'account/update_profile.html',
-        {'profile_edit_form': form},
+        {'profile_edit_form': form, 'section': 'configuration'},
     )
 
 
