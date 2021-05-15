@@ -35,6 +35,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'items.apps.ItemsConfig',
+    'friendship.apps.FriendshipConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
