@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item
+from .models import Item, Evaluation
 
 
 class MovieCreateForm(forms.ModelForm):
@@ -43,4 +43,24 @@ class BookCreateForm(forms.ModelForm):
             'publisher': 'Editora',
             'year': 'Ano de lançamento',
             'country': 'País',
+        }
+
+
+class EvaluationForm(forms.ModelForm):
+    class Meta:
+        model = Evaluation
+        fields = ('rating', 'comment')
+        labels = {
+            'rating': 'Nota',
+            'comment': 'Comentário',
+        }
+        widgets = {
+            #'name': forms.TextInput(attrs={'placeholder': 'Name'}),
+            'comment': forms.Textarea(
+                attrs={
+                    'placeholder': 'Escreva um comentário',
+                    'rows': '5',
+                    'cols':'150',
+                    'class': 'border-control form-control'
+                }),
         }

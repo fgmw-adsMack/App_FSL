@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+<main>
+  <section class= "lista-avaliacao container d-flex bd-highlight mt-5">
+
+    <ul class="list-group list-group-flush border border-white lista-avaliacao-layout w-100">
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Titulo:
+        <span>{{ object.title }}</span>
+      </li>
+      
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Pais:
+        <span>{{ object.country }}</span>
+      </li>
+
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Ano de Lançamento:
+        <span>{{ object.year }}</span>
+      </li>
+
+      {% if object.item_type == "book" %}
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Autor(es):
+        <span>{{ object.author }}</span>
+      </li>
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Editora:
+        <span>{{ object.publisher }}</span>
+      </li>
+      {% else %}
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Diretor(es):
+        <span>{{ object.director }}</span>
+      </li>
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Elenco Principal:
+        <span>{{ object.cast }}</span>
+      </li>
+      {% if object.item_type == 'series' %}
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Número de Temporadas:
+        <span>{{ object.seasons }}</span>
+      </li>
+      {% endif %}
+      {% endif %}
+
+      
+
+    </ul>
+
+    <div class="align-self-center text-center grupo-nota">
+      <h1><strong>{{ average }}<strong></h1>
+      <h6>Média Avaliação</h6>
+    </div>
+
+  </section>			
+
+  <section class= "comentario-area-avaliar container d-flex bd-highlight">
+    <form method="post">
+      {% csrf_token %}
+      <div class="my-1 mr-2 label-text">
+        {{ evaluation_form.rating|as_crispy_field }}
+      </div>
+      <div>
+        {{ evaluation_form.comment|as_crispy_field }}
+      </div>
+
+      
+        <button class="btn-avaliar d-flex justify-content-around align-self-center btn btn-info text-center" type="submit">Avaliar</button>
+      
+    </form>
+  </section>
+</main>
+{% endblock %}

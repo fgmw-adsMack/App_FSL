@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+<main>
+  <section class= "lista-avaliacao container d-flex bd-highlight mt-5">
+
+    <ul class="list-group list-group-flush border border-white lista-avaliacao-layout w-100">
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Titulo:
+        <span>{{ object.title }}</span>
+      </li>
+      
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Pais:
+        <span>{{ object.country }}</span>
+      </li>
+
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Ano de Lançamento:
+        <span>{{ object.year }}</span>
+      </li>
+
+      {% if object.item_type == "book" %}
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Autor(es):
+        <span>{{ object.author }}</span>
+      </li>
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Editora:
+        <span>{{ object.publisher }}</span>
+      </li>
+      {% else %}
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Diretor(es):
+        <span>{{ object.director }}</span>
+      </li>
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Elenco Principal:
+        <span>{{ object.cast }}</span>
+      </li>
+      {% if object.item_type == 'series' %}
+      <li class="list-group-item list-group-item-action text-list-avaliacao">Número de Temporadas:
+        <span>{{ object.seasons }}</span>
+      </li>
+      {% endif %}
+      {% endif %}
+
+      
+
+    </ul>
+
+    <div class="align-self-center text-center grupo-nota">
+      <h1><strong>{{ average }}<strong></h1>
+      <h6>Média Avaliação</h6>
+      <a href="{% url "evaluation" item_id=object.id %}" class="btn btn-info">Avaliar</a>
+    </div>
+
+  </section>			
+
+  <section class="container">
+
+    <h4 class="text-center text-atividades"><strong>Avaliações</strong></h4>
+    {% for l in latest %}
+    <div class="d-flex bd-highlight avaliacoes-section">
+      
+      <div class="p-2 bd-highlight avaliacoes-username">
+        
+        <div class="container d-flex justify-content-start">
+          <div class="ratio-avaliacao img-responsive-avaliacao img-circle-avaliacao h5" style="background-image:url(src/img/exemplo-2.jpg)"></div>
+          <h5 class="h4 align-self-center"><strong><a class="font-user-avaliacao" href="#">{{ l.user.username }}</a></strong></h5>
+        </div>	
+
+        <div class="container d-flex justify-content-left avaliacoes-username comentario-box">
+            <textarea readonly class="border-control form-control" rows="5" cols="150" placeholder="Nada foi comentado" style="resize:none">{{ l.comment }}</textarea>
+        </div>	  	
+
+          <div class="container d-flex justify-content-around align-self-center avaliacoes-box">
+            <h5><span class="curtir-avaliacao">&#10084 </span><span class="font-bold-avaliacao">732</span></h5>
+          <h5 class="font-bold-avaliacao">&#128488 5</h5>
+          <h5 class="font-bold-avaliacao">Nota {{ l.rating }}</h5>
+        </div>
+
+      </div>
+      
+    </div>
+    {% endfor %}
+    <h4 class="text-center text-atividades"><button type="button" class="btn btn-info btn-style">Ver mais</button></h4>
+  </section>
+</main>
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from . import constants
 import datetime
@@ -44,3 +45,24 @@ class Item(models.Model):
 
     def __str__(self):
         return self.title
+
+class Evaluation(models.Model):
+    CHOICES = [(i,i) for i in range(11)]
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE)
+    item = models.ForeignKey(
+        Item,
+        on_delete=models.CASCADE)
+    rating = models.IntegerField(
+        validators=[MinValueValidator(0),
+        MaxValueValidator(10)],
+        choices=CHOICES)
+    comment = models.CharField(max_length=255,blank=True,default='')
+    created = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['item']
+
+    def __str__(self):
+        return f"{self.item} {self.user}"
