@@ -15,13 +15,15 @@ def register_movie(request):
         form = MovieCreateForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            saved = form.save()
             messages.success(request, 'Cadastro realizado com sucesso!')
         else:
             messages.error(
                 request,
                 'Ops! Aconteceu um erro no seu cadastro. Verifique os campos e tente novamente!',
             )
+        
+        return HttpResponseRedirect(reverse(detail,args=(saved.id,)))
     else:
         form = MovieCreateForm()
     return render(
@@ -40,13 +42,14 @@ def register_book(request):
     if request.method == 'POST':
         form = BookCreateForm(request.POST)
         if form.is_valid():
-            form.save()
+            saved = form.save()
             messages.success(request, 'Cadastro realizado com sucesso!')
         else:
             messages.error(
                 request,
                 'Ops! Aconteceu um erro no seu cadastro. Verifique os campos e tente novamente!',
             )
+        return HttpResponseRedirect(reverse(detail,args=(saved.id,)))#f'items/{saved.id}')
     else:
         form = BookCreateForm()
     return render(
@@ -65,13 +68,14 @@ def register_series(request):
     if request.method == 'POST':
         form = SeriesCreateForm(request.POST)
         if form.is_valid():
-            form.save()
+            saved = form.save()
             messages.success(request, 'Cadastro realizado com sucesso!')
         else:
             messages.error(
                 request,
                 'Ops! Aconteceu um erro no seu cadastro. Verifique os campos e tente novamente!',
             )
+        return HttpResponseRedirect(reverse(detail,args=(saved.id,)))
     else:
         form = SeriesCreateForm()
     return render(
