@@ -112,7 +112,7 @@ section{
 }
 
 .font-bold-avaliacao:hover{
-  color: #EEAD2D;*/
+  color: red;
   transform: scale(1.2);
   cursor: pointer;
 }
@@ -130,10 +130,17 @@ section{
 }
 
 .curtir-avaliacao:hover{
-  color: red;
+  color: goldenrod;
   /*color: #EEAD2D;*/
   transform: scale(1.2);
   cursor: pointer;
+}
+.fa-heart-o{
+  color: gray;
+}
+
+.fa-heart{
+  color: red;
 }
 
 .img-circle-avaliacao {
@@ -493,7 +500,7 @@ footer{
 }
 
 .font-bold-avaliacao:hover{
-  color: #EEAD2D;
+  color: red;
   transform: scale(1.2);
   cursor: pointer;
 }
@@ -503,18 +510,6 @@ footer{
   border-color:#0088ff;
   border-radius: 15px;
 
-}
-
-.curtir-avaliacao{
-  font-weight: bold;
-  color: gray;
-}
-
-.curtir-avaliacao:hover{
-  color: red;
-  /*color: #EEAD2D;*/
-  transform: scale(1.2);
-  cursor: pointer;
 }
 
 .img-circle-avaliacao {

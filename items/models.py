@@ -50,19 +50,46 @@ class Evaluation(models.Model):
     CHOICES = [(i,i) for i in range(11)]
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE)
+        on_delete=models.CASCADE,
+        related_name='evaluations')
     item = models.ForeignKey(
         Item,
-        on_delete=models.CASCADE)
+        on_delete=models.CASCADE,
+        related_name='evaluations')
     rating = models.IntegerField(
         validators=[MinValueValidator(0),
         MaxValueValidator(10)],
         choices=CHOICES)
     comment = models.CharField(max_length=255,blank=True,default='')
+    #####
+    # total_likes = models.PositiveIntegerField(default=0)
+    likes = models.ManyToManyField(User,related_name='likes')
+    #####
     created = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['item']
 
     def __str__(self):
-        return f"{self.item} {self.user}"
+        return f"{self.user} rated ~> {self.item}"
+
+# class Like(models.Model):
+
+#     user = models.ForeignKey(
+#         User, 
+#         on_delete=models.CASCADE, 
+#         related_name='likes')
+#     evaluation = models.ForeignKey(
+#         Evaluation, 
+#         on_delete=models.CASCADE, 
+#         related_name='likes')
+    
+#     created = models.DateTimeField(auto_now_add=True)
+
+#     class Meta:
+#         constraints = [
+#             models.UniqueConstraint(fields=['user', 'evaluation'], name="unique_like"),
+#         ]
+    
+#     def __str__(self):
+#         return f"{self.user} liked ~> {self.evaluation}"

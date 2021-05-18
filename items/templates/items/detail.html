@@ -56,31 +56,73 @@
   <section class="container">
 
     <h4 class="text-center text-atividades"><strong>Avaliações</strong></h4>
-    {% for l in latest %}
+    {% for eval in latest_eval %}
     <div class="d-flex bd-highlight avaliacoes-section">
       
       <div class="p-2 bd-highlight avaliacoes-username">
         
         <div class="container d-flex justify-content-start">
-          <div class="ratio-avaliacao img-responsive-avaliacao img-circle-avaliacao h5" style="background-image:url(src/img/exemplo-2.jpg)"></div>
-          <h5 class="h4 align-self-center"><strong><a class="font-user-avaliacao" href="#">{{ l.user.username }}</a></strong></h5>
+          <div class="ratio-avaliacao img-responsive-avaliacao img-circle-avaliacao h5" style="{{ eval.user.photo }}"></div>
+          <h5 class="h4 align-self-center"><strong><a class="font-user-avaliacao" href="#">{{ eval.user.username }}</a></strong></h5>
         </div>	
 
         <div class="container d-flex justify-content-left avaliacoes-username comentario-box">
-            <textarea readonly class="border-control form-control" rows="5" cols="150" placeholder="Nada foi comentado" style="resize:none">{{ l.comment }}</textarea>
+            {% if eval.comment %}
+            <textarea readonly class="border-control form-control" rows="5" cols="150" placeholder="*Nada foi comentado*" style="resize:none">{{ eval.comment }}</textarea>
+            {% else %}
+            <textarea readonly class="border-control form-control" rows="0" cols="150 style="resize:none">{{ eval.comment }}</textarea>
+            {% endif %}
         </div>	  	
 
           <div class="container d-flex justify-content-around align-self-center avaliacoes-box">
-            <h5><span class="curtir-avaliacao">&#10084 </span><span class="font-bold-avaliacao">732</span></h5>
-          <h5 class="font-bold-avaliacao">&#128488 5</h5>
-          <h5 class="font-bold-avaliacao">Nota {{ l.rating }}</h5>
+              {% csrf_token %}
+              {% if user in eval.likes.all %}
+              <span class="like curtir-avaliacao" name="{{ eval.id }}"><span class="fa fa-heart like_status_{{ eval.id }}">&nbsp</span><span class="like_{{ eval.id }}">{{ eval.likes.count }}</span></span>
+              {% else %}
+              <span class="like curtir-avaliacao" name="{{ eval.id }}"><span class="fa fa-heart-o like_status_{{ eval.id }}">&nbsp</span><span class="like_{{ eval.id }}">{{ eval.likes.count }}</span></span>
+              {% endif %}
+          
+          <h5 class="font-bold-avaliacao">Nota {{ eval.rating }}</h5>
         </div>
 
       </div>
       
     </div>
     {% endfor %}
-    <h4 class="text-center text-atividades"><button type="button" class="btn btn-info btn-style">Ver mais</button></h4>
+    {% if latest_eval %}
+    <h4 class="text-center text-atividades"><button type="button" class="btn btn-info">Ver mais</button></h4>
+    {% else %}
+    <h4 class="text-center text-atividades"><a type="button" class="btn btn-info" href="{% url "evaluation" item_id=object.id %}">Seja o primeiro a avaliar</a></h4>
+    {% endif %}
   </section>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script>
+    $('.like').click(function(){
+      
+      var eval_id = $(this).attr('name');
+      console.log(eval_id);
+          $.ajax({
+                   type: "POST",
+                   url: "{% url 'like' %}",
+                   data: {'eval_id': eval_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                   
+                   success: function(response) {
+                     
+                     var likes = JSON.parse(response["likes"]);
+                     var liked = JSON.parse(response["liked"]);
+                     $('.like_'+eval_id).html(likes);
+                     if (liked){
+                        $('.like_status_'+eval_id).removeClass("fa fa-heart-o").addClass('fa fa-heart');
+                     }else{
+                        $('.like_status_'+eval_id).removeClass("fa fa-heart").addClass('fa fa-heart-o');
+                     }
+                    },
+                    error: function(rs, e) {
+                           alert(rs.responseText);
+                    }
+              });
+        })
+    </script>
+
 </main>
 {% endblock %}
