@@ -142,6 +142,8 @@ def evaluation(request,item_id):
                 request,
                 'Ops! Aconteceu um erro no seu cadastro. Verifique os campos e tente novamente!',
             )
+        return HttpResponseRedirect(reverse(detail,args=(item_id,)))
+        
     else:
         form = EvaluationForm()
     return render(
