@@ -192,18 +192,18 @@ def like(request):
         
     # return HttpResponseRedirect(reverse('detail', args=(eval_id,)))
 
-@login_required()
-def dislike(request,eval_id):
-    eval_obj = Evaluation.objects.get(id=eval_id)
+# @login_required()
+# def dislike(request,eval_id):
+#     eval_obj = Evaluation.objects.get(id=eval_id)
     
-    eval_obj.total_likes+=1
-    eval_obj.users_likes.add(request.user)
+#     eval_obj.total_likes+=1
+#     eval_obj.users_likes.add(request.user)
 
-    like = get_object_or_404(Like,evaluation=eval_obj)
-    like.filter(user=request.user).delete()
+#     like = get_object_or_404(Like,evaluation=eval_obj)
+#     like.filter(user=request.user).delete()
 
-    eval_obj.save()
-    like.save()
+#     eval_obj.save()
+#     like.save()
         
     # return HttpResponseRedirect(reverse('detail', args=(evaluation_id,)))
 
