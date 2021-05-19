@@ -1,25 +1,23 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
+{% load thumbnail %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
 {% block content %}
-<main>
-  <section class= "lista-avaliacao container d-flex bd-highlight mt-5">
-
-    <ul class="list-group list-group-flush border border-white lista-avaliacao-layout w-100">
+<main class="container">
+  <div class="container mb-5 mt-4 bg-white rounded shadow-sm d-flex">
+    <ul class="list-group list-group-flush border border-white lista-avaliacao-layout w-100 p-5">
       <li class="list-group-item list-group-item-action text-list-avaliacao">Titulo:
         <span>{{ object.title }}</span>
       </li>
-      
       <li class="list-group-item list-group-item-action text-list-avaliacao">Pais:
         <span>{{ object.country }}</span>
       </li>
-
       <li class="list-group-item list-group-item-action text-list-avaliacao">Ano de Lançamento:
         <span>{{ object.year }}</span>
       </li>
-
       {% if object.item_type == "book" %}
       <li class="list-group-item list-group-item-action text-list-avaliacao">Autor(es):
         <span>{{ object.author }}</span>
@@ -40,74 +38,63 @@
       </li>
       {% endif %}
       {% endif %}
-
-      
-
     </ul>
-
     <div class="align-self-center text-center grupo-nota">
       <h1><strong>{{ average }}<strong></h1>
       <h6>Média Avaliação</h6>
       <a href="{% url "evaluation" item_id=object.id %}" class="btn btn-info">Avaliar</a>
     </div>
+  </div>
 
-  </section>			
-
-  <section class="container">
-
-    <h4 class="text-center text-atividades"><strong>Avaliações</strong></h4>
+  <section class="container mt-4 bg-white rounded shadow-sm">
+    <h1 class="h3 fw-normal text-center text-atividades p-4">Avaliações</h1>
     {% for eval in latest_eval %}
     <div class="d-flex bd-highlight avaliacoes-section">
-      
-      <div class="p-2 bd-highlight avaliacoes-username">
-        
+      <div class="p-4 bd-highlight avaliacoes-username">
         <div class="container d-flex justify-content-start">
-          <div class="ratio-avaliacao img-responsive-avaliacao img-circle-avaliacao h5" style="{{ eval.user.photo }}"></div>
-          <h5 class="h4 align-self-center"><strong><a class="font-user-avaliacao" href="#">{{ eval.user.username }}</a></strong></h5>
-        </div>	
-
-        <div class="container d-flex justify-content-left avaliacoes-username comentario-box">
+          <div class="img-responsive-avaliacao img-circle-avaliacao h5">
+            <img src="{% if eval.profile.photo %} {{ eval.profile.photo|thumbnail_url:'avatar'}}
+            {% else %}
+            {% static "img/no_photo.png" %}
+            {% endif %}"
+            class="rounded-circle img-fluid img-responsive" alt="Responsive image">
+          </div>
+          <h5 class="h4 align-self-center"><strong><a class="font-user-avaliacao" href="{{eval.user.profile.get_absolute_url}}">{{ eval.user.username }}</a></strong></h5>
+        </div class="p-4">
             {% if eval.comment %}
             <textarea readonly class="border-control form-control" rows="5" cols="150" placeholder="*Nada foi comentado*" style="resize:none">{{ eval.comment }}</textarea>
             {% else %}
             <textarea readonly class="border-control form-control" rows="0" cols="150 style="resize:none">{{ eval.comment }}</textarea>
             {% endif %}
-        </div>	  	
-
-          <div class="container d-flex justify-content-around align-self-center avaliacoes-box">
+          <div class="container d-flex justify-content-around align-self-center avaliacoes-box mt-4">
               {% csrf_token %}
               {% if user in eval.likes.all %}
               <span class="like curtir-avaliacao" name="{{ eval.id }}"><span class="fa fa-heart like_status_{{ eval.id }}">&nbsp</span><span class="like_{{ eval.id }}">{{ eval.likes.count }}</span></span>
               {% else %}
               <span class="like curtir-avaliacao" name="{{ eval.id }}"><span class="fa fa-heart-o like_status_{{ eval.id }}">&nbsp</span><span class="like_{{ eval.id }}">{{ eval.likes.count }}</span></span>
               {% endif %}
-          
+
           <h5 class="font-bold-avaliacao">Nota {{ eval.rating }}</h5>
         </div>
-
       </div>
-      
     </div>
     {% endfor %}
     {% if latest_eval %}
-    <h4 class="text-center text-atividades"><button type="button" class="btn btn-info">Ver mais</button></h4>
+    <h4 class="text-center text-atividades p-5"><button type="button" class="btn btn-info">Ver mais</button></h4>
     {% else %}
-    <h4 class="text-center text-atividades"><a type="button" class="btn btn-info" href="{% url "evaluation" item_id=object.id %}">Seja o primeiro a avaliar</a></h4>
+    <h4 class="text-center text-atividades p-5"><a type="button" class="btn btn-info" href="{% url "evaluation" item_id=object.id %}">Seja o primeiro a avaliar</a></h4>
     {% endif %}
   </section>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script>
     $('.like').click(function(){
-      
       var eval_id = $(this).attr('name');
       console.log(eval_id);
           $.ajax({
                    type: "POST",
                    url: "{% url 'like' %}",
                    data: {'eval_id': eval_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
-                   
                    success: function(response) {
-                     
                      var likes = JSON.parse(response["likes"]);
                      var liked = JSON.parse(response["liked"]);
                      $('.like_'+eval_id).html(likes);
@@ -123,6 +110,5 @@
               });
         })
     </script>
-
 </main>
 {% endblock %}

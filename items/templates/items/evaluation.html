@@ -4,22 +4,18 @@
 {% block title %}{{ object.title }}{% endblock %}
 
 {% block content %}
-<main>
-  <section class= "lista-avaliacao container d-flex bd-highlight mt-5">
-
-    <ul class="list-group list-group-flush border border-white lista-avaliacao-layout w-100">
+<main class="container">
+  <div class="container mb-5 mt-4 bg-white rounded shadow-sm d-flex">
+    <ul class="list-group list-group-flush border border-white lista-avaliacao-layout w-100 p-5">
       <li class="list-group-item list-group-item-action text-list-avaliacao">Titulo:
         <span>{{ object.title }}</span>
       </li>
-      
       <li class="list-group-item list-group-item-action text-list-avaliacao">Pais:
         <span>{{ object.country }}</span>
       </li>
-
       <li class="list-group-item list-group-item-action text-list-avaliacao">Ano de Lançamento:
         <span>{{ object.year }}</span>
       </li>
-
       {% if object.item_type == "book" %}
       <li class="list-group-item list-group-item-action text-list-avaliacao">Autor(es):
         <span>{{ object.author }}</span>
@@ -40,31 +36,23 @@
       </li>
       {% endif %}
       {% endif %}
-
-      
-
     </ul>
-
     <div class="align-self-center text-center grupo-nota">
       <h1><strong>{{ average }}<strong></h1>
       <h6>Média Avaliação</h6>
     </div>
+  </div>
 
-  </section>			
-
-  <section class= "comentario-area-avaliar container d-flex bd-highlight">
-    <form method="post">
+  <section class= "comentario-area-avaliar container d-flex bg-white rounded shadow-sm">
+    <form method="post" class="p-4">
       {% csrf_token %}
-      <div class="my-1 mr-2 label-text">
+      <div class="my-1 mr-2 label-text mt-3">
         {{ evaluation_form.rating|as_crispy_field }}
       </div>
-      <div>
+      <div class="my-1 mr-2 label-text mt-3">
         {{ evaluation_form.comment|as_crispy_field }}
       </div>
-
-      
         <button class="btn-avaliar d-flex justify-content-around align-self-center btn btn-info text-center" type="submit">Avaliar</button>
-      
     </form>
   </section>
 </main>

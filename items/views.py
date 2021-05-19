@@ -1,10 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
-from .forms import MovieCreateForm, BookCreateForm, SeriesCreateForm, EvaluationForm
+from .forms import (
+    MovieCreateForm,
+    BookCreateForm,
+    SeriesCreateForm,
+    EvaluationForm,
+)
 from django.contrib import messages
 from django.views.generic import DetailView
-from .models import Item, Evaluation#, Like
+from .models import Item, Evaluation  # , Like
 from django.urls import reverse
 from django.db.models import Avg
 
@@ -22,8 +27,8 @@ def register_movie(request):
                 request,
                 'Ops! Aconteceu um erro no seu cadastro. Verifique os campos e tente novamente!',
             )
-        
-        return HttpResponseRedirect(reverse(detail,args=(saved.id,)))
+
+        return HttpResponseRedirect(reverse(detail, args=(saved.id,)))
     else:
         form = MovieCreateForm()
     return render(
@@ -49,7 +54,9 @@ def register_book(request):
                 request,
                 'Ops! Aconteceu um erro no seu cadastro. Verifique os campos e tente novamente!',
             )
-        return HttpResponseRedirect(reverse(detail,args=(saved.id,)))#f'items/{saved.id}')
+        return HttpResponseRedirect(
+            reverse(detail, args=(saved.id,))
+        )  # f'items/{saved.id}')
     else:
         form = BookCreateForm()
     return render(
@@ -75,7 +82,7 @@ def register_series(request):
                 request,
                 'Ops! Aconteceu um erro no seu cadastro. Verifique os campos e tente novamente!',
             )
-        return HttpResponseRedirect(reverse(detail,args=(saved.id,)))
+        return HttpResponseRedirect(reverse(detail, args=(saved.id,)))
     else:
         form = SeriesCreateForm()
     return render(
@@ -93,12 +100,19 @@ class ItemDetailView(DetailView):
     model = Item
     template_name = 'items/detail.html'
 
-def detail(request,item_id):
+
+def detail(request, item_id):
     # item = Item.objects.get(id=item_id)
-    item = get_object_or_404(Item,id=item_id)
-    latest_eval = Evaluation.objects.filter(item=item_id).order_by('-created')[:4]
-    average = _parse_average(Evaluation.objects.filter(item=item_id).aggregate(Avg('rating')).get('rating__avg'))
-    
+    item = get_object_or_404(Item, id=item_id)
+    latest_eval = Evaluation.objects.filter(item=item_id).order_by('-created')[
+        :4
+    ]
+    average = _parse_average(
+        Evaluation.objects.filter(item=item_id)
+        .aggregate(Avg('rating'))
+        .get('rating__avg')
+    )
+
     # for l in latest_eval:
     #     l['users_likes'] = Like.objects.filter(evaluation=l).all()
     #     l['total_likes'] = len(l['likes'])
@@ -121,10 +135,14 @@ def detail(request,item_id):
 
 
 @login_required()
-def evaluation(request,item_id):
+def evaluation(request, item_id):
     # print("Username: "+str(request))
-    item = get_object_or_404(Item,id=item_id)
-    average = _parse_average(Evaluation.objects.filter(item=item_id).aggregate(Avg('rating')).get('rating__avg'))
+    item = get_object_or_404(Item, id=item_id)
+    average = _parse_average(
+        Evaluation.objects.filter(item=item_id)
+        .aggregate(Avg('rating'))
+        .get('rating__avg')
+    )
     if request.method == 'POST':
         # print(request.user.username)
         form = EvaluationForm(request.POST)
@@ -136,14 +154,14 @@ def evaluation(request,item_id):
             temp.user = request.user
             temp.item = item
             temp.save()
-            messages.success(request, 'Cadastro realizado com sucesso!')
+            messages.success(request, 'Avaliação realizada com sucesso!')
         else:
             messages.error(
                 request,
-                'Ops! Aconteceu um erro no seu cadastro. Verifique os campos e tente novamente!',
+                'Ops! Aconteceu um erro na seu avaliação. Verifique os campos e tente novamente!',
             )
-        return HttpResponseRedirect(reverse(detail,args=(item_id,)))
-        
+        return HttpResponseRedirect(reverse(detail, args=(item_id,)))
+
     else:
         form = EvaluationForm()
     return render(
@@ -157,14 +175,17 @@ def evaluation(request,item_id):
         },
     )
 
+
 @login_required()
 def like(request):
     print("ENTER")
     print(request.POST.get('eval_id'))
     if request.method == 'POST':
-        
+
         # item = get_object_or_404(Item,)
-        eval_obj = get_object_or_404(Evaluation,id=request.POST.get('eval_id'))
+        eval_obj = get_object_or_404(
+            Evaluation, id=request.POST.get('eval_id')
+        )
 
         liked = None
 
@@ -174,34 +195,34 @@ def like(request):
         else:
             eval_obj.likes.add(request.user)
             liked = True
-            
+
         item_id = eval_obj.item.id
 
-        res = {
-            'likes': eval_obj.likes.count(),
-            'liked': liked
-        }
+        res = {'likes': eval_obj.likes.count(), 'liked': liked}
         # print("PATH: "+str(eval_obj.get_absolute_url()))
         print("OK")
-        return JsonResponse(res,)
+        return JsonResponse(
+            res,
+        )
         # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))#f'/items/{item_id}')
-    
+
     # eval_obj.total_likes+=1
     # eval_obj.users_likes.add(request.user)
-    
+
     # like = Like()
     # like.user = request.user
     # like.evaluation = eval_obj
 
     # eval_obj.save()
     # like.save()
-        
+
     # return HttpResponseRedirect(reverse('detail', args=(eval_id,)))
+
 
 # @login_required()
 # def dislike(request,eval_id):
 #     eval_obj = Evaluation.objects.get(id=eval_id)
-    
+
 #     eval_obj.total_likes+=1
 #     eval_obj.users_likes.add(request.user)
 
@@ -210,18 +231,22 @@ def like(request):
 
 #     eval_obj.save()
 #     like.save()
-        
-    # return HttpResponseRedirect(reverse('detail', args=(evaluation_id,)))
+
+# return HttpResponseRedirect(reverse('detail', args=(evaluation_id,)))
+
 
 def _parse_average(average):
     average = '%.1f' % average if average else "-,-"
-    average = average.replace('.',',') #if type(average) == float else average
+    average = average.replace(
+        '.', ','
+    )  # if type(average) == float else average
     return average
+
 
 # @login_required()
 # def like(request,evaluation_id):
 #     eval_obj = Evaluation.objects.get(id=item_id)
-    
+
 #     if request.method == 'POST':
 #         # print(request.user.username)
 #         like = Like()
@@ -240,7 +265,7 @@ def _parse_average(average):
 #             )
 #     else:
 #         like = EvaluationForm()
-        
+
 #     return render(
 #         request,
 #         'items/evaluation.html',
@@ -251,4 +276,3 @@ def _parse_average(average):
 #             'section': 'evaluation',
 #         },
 #     )
-

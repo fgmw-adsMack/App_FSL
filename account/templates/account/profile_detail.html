@@ -1,35 +1,36 @@
 {% extends "base.html" %}
 {% load static %}
-
-{% block title %}{{ object.user.username }}{% endblock %}
-
-<link href="{% static "css/style.css" %}" rel="stylesheet">
+{% load thumbnail %}
+{% block title %}{{ profile.user.username }}{% endblock %}
 
 {% block content %}
-<link href="{% static "css/style.css" %}" rel="stylesheet">
+
 <main>
-  <section class="header-usuario container-fluid text-center dados-profile" id="header-usuario-bg" style=background-color:#81DAF5>
-      <img src="{% if object.photo %} {{ object.photo.url }}
+  <section class="header-usuario container-fluid text-center dados-profile mt-n4" id="header-usuario-bg" style=background-color:#81DAF5>
+      <img src="{% if profile.photo %} {{ profile.photo|thumbnail_url:'avatar'}}
       {% else %}
       {% static "img/no_photo.png" %}
       {% endif %}"
-      class="rounded-circle img-fluid" width:"200";>
+      class="rounded-circle img-fluid p-5 img-responsive" alt="Responsive image">
         <!--<div class="container-fluid img-circle ratio d-flex justify-content-center" style="background-image:url(src/img/exemplo-2.jpg)">
         </div>-->
-      <div class="background-section-name row">
-        <h3 class="col nome-usuario"><strong>{{ object.full_name }}</strong></h3>
+      <div class="background-section row text-white p-2">
+        <h3 class="col nome-usuario">{{ profile.full_name }}</h3>
       </div>
 
-      <div class="background-section d-flex justify-content-around row">
-          <h5 class="effect-user-information">Amigos <strong>33</strong></h5>
+      <div class="background-section d-flex justify-content-around row text-white p-2 border-top border-info">
+          <h5 class="effect-user-information">Amigos 33</h5>
           <button type="button" class="btn btn-info">Adicionar aos Amigos</button>
       </div>
   </section>
-  <section class="table-responsive-sm container">
+</main>
+
+<main class="container mt-4">
+  <div class="table-responsive-sm container bg-white p-4 rounded shadow-sm">
     <div class="text-atividades">
-      <h4 class="text-center"><strong>Atividades</strong></h4>
+      <h4 class="text-center p-4">Atividades</h4>
     </div>
-    <table class= "table">
+    <table class= "table border border-info">
       <tbody>
         <thead class="thead-dark text-center">
           <tr class="table-usuario">
@@ -39,64 +40,17 @@
             <th class="table-usuario" scope="col"> </th>
           </tr>
         </thead>
+        {% for eval in evals %}
         <tr class="text-center table-usuario">
-          <td>Batman Begins</td>
-          <td>Filme</td>
-          <td>8</td>
-          <td><button type="button" class="btn btn-info">Visualizar</button></td>
+          <td>{{eval.item}}</td>
+          <td>{{eval.item.item_type}}</td>
+          <td>{{eval.rating}}</td>
+          <td><a class="btn btn-info" role="button" href="{{eval.item.get_absolute_url}}">Visualizar</a></td>
         </tr>
-        <tr class="text-center table-usuario">
-          <td>TDD com Python</td>
-          <td>Livro</td>
-          <td>9</td>
-          <td><button type="button" class="btn btn-info">Visualizar</button></td>
-        </tr>
-        <tr class="text-center table-usuario">
-          <td>Eu me importo</td>
-          <td>Filme</td>
-          <td>5</td>
-          <td><button type="button" class="btn btn-info">Visualizar</button></td>
-        </tr>
-        <tr class="text-center table-usuario">
-          <td>O Poder do Hábito</td>
-          <td>Livro</td>
-          <td>6</td>
-          <td><button type="button" class="btn btn-info">Visualizar</button></td>
-        </tr>
-        <tr class="text-center table-usuario">
-          <td>Druk</td>
-          <td>Filme</td>
-          <td>3</td>
-          <td><button type="button" class="btn btn-info">Visualizar</button></td>
-        </tr>
-        <tr class="text-center table-usuario">
-          <td>Vingadores: Ultimato</td>
-          <td>Filme</td>
-          <td>9</td>
-          <td><button type="button" class="btn btn-info">Visualizar</button></td>
-        </tr>
-        <tr class="text-center table-usuario">
-          <td>Sherlock Holmes: Jogo das Sombras</td>
-          <td>Filme</td>
-          <td>8</td>
-          <td><button type="button" class="btn btn-info">Visualizar</button></td>
-        </tr>
-
-        <tr class="text-center table-usuario">
-          <td>Scorpion</td>
-          <td>Série</td>
-          <td>7</td>
-          <td><button type="button" class="btn btn-info">Visualizar</button></td>
-        </tr>
-        <tr class="text-center table-usuario">
-          <td>O Caçador de Pipas</td>
-          <td>Livro</td>
-          <td>6</td>
-          <td><button type="button" class="btn btn-info">Visualizar</button></td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
-    <h4 class="text-center text-atividades"><button type="button" class="btn btn-info btn-style">Ver mais</button></h4>
-  </section>
+    <h4 class="text-center text-atividades mt-4"><button type="button" class="btn btn-info btn-style">Ver mais</button></h4>
+  </div>
 </main>
 {% endblock %}

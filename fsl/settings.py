@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap4',
     'crispy_forms',
+    'easy_thumbnails',
 ]
 
 MIDDLEWARE = [
@@ -105,6 +106,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'avatar': {'size': (200, 200), 'crop': True},
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

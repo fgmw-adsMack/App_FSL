@@ -1,12 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.db import transaction
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserCreateForm, ProfileCreateForm, ProfileEditForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-from django.views.generic import DetailView
 from .models import Profile
+from items.models import Evaluation
 
 
 def index(request):
@@ -15,7 +15,13 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'account/dashboard.html', {'section': 'dashboard'})
+    user = request.user
+    evals = Evaluation.objects.filter(user_id=request.user)
+    return render(
+        request,
+        'account/dashboard.html',
+        {'user': user, 'evals': evals, 'section': 'dashboard'},
+    )
 
 
 @transaction.atomic
@@ -35,7 +41,6 @@ def creation_user_profile(request):
             raw_password = user_form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            messages.success(request, 'Bem-vindo para a FSL!')
             return redirect('dashboard')
         else:
             messages.error(
@@ -99,6 +104,11 @@ def change_password(request):
     )
 
 
-class ProfileDetailView(DetailView):
-    model = Profile
-    template_name = 'account/profile_detail.html'
+def profile_detail(request, slug):
+    profile = get_object_or_404(Profile, slug=slug)
+    evals = Evaluation.objects.filter(user_id=request.user)
+    return render(
+        request,
+        'account/profile_detail.html',
+        {'profile': profile, 'evals': evals},
+    )

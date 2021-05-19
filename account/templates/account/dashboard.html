@@ -1,75 +1,54 @@
 {% extends "base.html" %}
-
-{% block title %}Home{% endblock %}
+{% load static %}
+{% load thumbnail %}
+{% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
-  <main class="container mt-5 pt-4">
-    <div class="mt-4 p-4 bg-body rounded shadow-sm">
-      <h6 class="border-bottom pb-2 mb-0">Avaliações recentes</h6>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-
-        <p class="pb-3 mb-0 small lh-sm border-bottom">
-          <strong class="d-block text-gray-dark">@username</strong>
-          Some representative placeholder content, with some information about this user. Imagine this being some sort of status update, perhaps?
-        </p>
+<main>
+  <section class="header-usuario container-fluid text-center dados-profile mt-n4" id="header-usuario-bg" style=background-color:#81DAF5>
+      <img src="{% if user.profile.photo %} {{ user.profile.photo|thumbnail_url:'avatar'}}
+      {% else %}
+      {% static "img/no_photo.png" %}
+      {% endif %}"
+      class="rounded-circle img-fluid p-5 img-responsive" alt="Responsive image">
+      <div class="background-section row text-white p-2">
+        <h3 class="col nome-usuario">{{ user.profile.full_name }}</h3>
       </div>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e83e8c"/><text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text></svg>
 
-        <p class="pb-3 mb-0 small lh-sm border-bottom">
-          <strong class="d-block text-gray-dark">@username</strong>
-          Some more representative placeholder content, related to this other user. Another status update, perhaps.
-        </p>
+      <div class="background-section d-flex justify-content-around row text-white p-2 border-top border-info">
+        <h5 class="col">Amigos 33</h5>
+        <h5 class="col">Solicitações de Amizade 8</h5>
+        <h5 class="col">Recomendações 12</h5>
       </div>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#6f42c1"/><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg>
+  </section>
+</main>
 
-        <p class="pb-3 mb-0 small lh-sm border-bottom">
-          <strong class="d-block text-gray-dark">@username</strong>
-          This user also gets some representative placeholder content. Maybe they did something interesting, and you really want to highlight this in the recent updates.
-        </p>
-      </div>
-      <small class="d-block text-end mt-3">
-        <a href="#">Ver mais</a>
-      </small>
+<main class="container mt-4">
+  <div class="table-responsive-sm container bg-white p-4 rounded shadow-sm">
+    <div class="text-atividades">
+      <h4 class="text-center p-4">Minhas Atividades</h4>
     </div>
-
-    <div class="my-3 p-3 bg-body rounded shadow-sm">
-      <h6 class="border-bottom pb-2 mb-0">Sugestões de amigos</h6>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-          <div class="d-flex justify-content-between">
-            <strong class="text-gray-dark">Full Name</strong>
-            <a href="#">Visualizar</a>
-          </div>
-          <span class="d-block">@username</span>
-        </div>
-      </div>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-          <div class="d-flex justify-content-between">
-            <strong class="text-gray-dark">Full Name</strong>
-            <a href="#">Visualizar</a>
-          </div>
-          <span class="d-block">@username</span>
-        </div>
-      </div>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-          <div class="d-flex justify-content-between">
-            <strong class="text-gray-dark">Full Name</strong>
-            <a href="#">Visualizar</a>
-          </div>
-          <span class="d-block">@username</span>
-        </div>
-      </div>
-    </div>
-  </main>
+    <table class= "table border border-info">
+      <tbody>
+        <thead class="thead-dark text-center">
+          <tr class="table-usuario">
+            <th class="table-usuario" scope="col">Título</th>
+            <th class="table-usuario" scope="col">Item</th>
+            <th class="table-usuario" scope="col">Nota</th>
+            <th class="table-usuario" scope="col"> </th>
+          </tr>
+        </thead>
+        {% for eval in evals %}
+        <tr class="text-center table-usuario">
+          <td>{{eval.item}}</td>
+          <td>{{eval.item.item_type}}</td>
+          <td>{{eval.rating}}</td>
+          <td><a class="btn btn-info" role="button" href="{{eval.item.get_absolute_url}}">Visualizar</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <h4 class="text-center text-atividades mt-4"><button type="button" class="btn btn-info btn-style">Ver mais</button></h4>
+  </div>
+</main>
 {% endblock %}

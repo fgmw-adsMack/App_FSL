@@ -6,6 +6,7 @@ Django==3.1.7
 django-bootstrap4==3.0.1
 django-crispy-forms==1.11.2
 django-localflavor==3.0.1
+easy-thumbnails==2.7.1
 importlib-metadata==2.1.1
 Pillow==7.0.0
 python-decouple==3.4

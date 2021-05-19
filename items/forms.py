@@ -3,7 +3,8 @@ from .models import Item, Evaluation
 
 
 class MovieCreateForm(forms.ModelForm):
-    item_type = forms.CharField(widget=forms.HiddenInput(),initial='movie')
+    item_type = forms.CharField(widget=forms.HiddenInput(), initial='movie')
+
     class Meta:
         model = Item
         fields = ('title', 'director', 'cast', 'year', 'country', 'item_type')
@@ -17,10 +18,19 @@ class MovieCreateForm(forms.ModelForm):
 
 
 class SeriesCreateForm(forms.ModelForm):
-    item_type = forms.CharField(widget=forms.HiddenInput(),initial='series')
+    item_type = forms.CharField(widget=forms.HiddenInput(), initial='series')
+
     class Meta:
         model = Item
-        fields = ('title', 'director', 'cast', 'year', 'country', 'seasons', 'item_type')
+        fields = (
+            'title',
+            'director',
+            'cast',
+            'year',
+            'country',
+            'seasons',
+            'item_type',
+        )
         labels = {
             'title': 'Título',
             'director': 'Diretor',
@@ -32,11 +42,18 @@ class SeriesCreateForm(forms.ModelForm):
 
 
 class BookCreateForm(forms.ModelForm):
-    item_type = forms.CharField(widget=forms.HiddenInput(),initial='book')
-    #item_type = forms.CharField(initial='book')
+    item_type = forms.CharField(widget=forms.HiddenInput(), initial='book')
+    # item_type = forms.CharField(initial='book')
     class Meta:
         model = Item
-        fields = ('title', 'author', 'publisher', 'year', 'country', 'item_type')
+        fields = (
+            'title',
+            'author',
+            'publisher',
+            'year',
+            'country',
+            'item_type',
+        )
         labels = {
             'title': 'Título',
             'author': 'Autor(es)',
@@ -60,7 +77,8 @@ class EvaluationForm(forms.ModelForm):
                 attrs={
                     'placeholder': 'Escreva um comentário',
                     'rows': '5',
-                    'cols':'150',
-                    'class': 'border-control form-control'
-                }),
+                    'cols': '150',
+                    'class': 'border-control form-contro',
+                }
+            ),
         }
