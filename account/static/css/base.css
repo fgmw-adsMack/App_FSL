@@ -1,9 +1,3 @@
-
-*{
-  font-family: 'Space+Grotesk', sans-serif
-}
-
-
 body {
   padding-top: 95px;
   padding-bottom: 95px;
@@ -70,16 +64,6 @@ body {
   font-size: 20px;
 }
 
-.curtir-avaliacao {
-    font-weight: bold;
-    color: gray;
-}
-
-.curtir-avaliacao:hover{
-  color: red;
-  cursor: pointer;
-}
-
 .font-bold-avaliacao{
   color: gray;
 	font-size: 15px
@@ -122,6 +106,14 @@ body {
 
 .avaliacoes-section{
     margin-bottom: 5px;
+}
+
+.fa-heart-o{
+  color: gray;
+}
+
+.fa-heart{
+  color: red;
 }
 
 /*-------------------------------------------------Profile-------------------------------------------------*/
