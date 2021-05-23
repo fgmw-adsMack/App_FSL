@@ -106,7 +106,7 @@ def change_password(request):
 
 def profile_detail(request, slug):
     profile = get_object_or_404(Profile, slug=slug)
-    evals = Evaluation.objects.filter(user_id=request.user)
+    evals = Evaluation.objects.filter(user_id=profile.user)
     return render(
         request,
         'account/profile_detail.html',

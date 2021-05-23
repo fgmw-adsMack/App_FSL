@@ -30,7 +30,6 @@ pip install -r requirements.txt
 cat << EOF > .env
 DEBUG=True
 SECRET_KEY=your_secret_key
-ALLOWED_HOSTS=127.0.0.1,.localhost
 EOF
 ```
 
