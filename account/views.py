@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.db import transaction
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from .forms import UserCreateForm, ProfileCreateForm, ProfileEditForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
@@ -10,7 +10,10 @@ from items.models import Evaluation
 
 
 def index(request):
-    return render(request, 'account/index.html')
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('dashboard/')
+    else:
+        return render(request, 'account/index.html')
 
 
 @login_required
