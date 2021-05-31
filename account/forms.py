@@ -48,8 +48,8 @@ class SearchForm(forms.Form):
     CHOICES = [('1', 'Membros'), ('2', 'Itens')]
     query = forms.CharField(
         label='',
-        widget=forms.TextInput(attrs={'placeholder': 'Digite um termo para pesquisar'}),
+        widget=forms.TextInput(attrs={'placeholder': 'Digite um nome de usuário ou título de item'}),
     )
     choice_field = forms.ChoiceField(
-        widget=forms.RadioSelect, choices=CHOICES, label='',
+        widget=forms.RadioSelect, choices=CHOICES, label='', initial='1',
     )
