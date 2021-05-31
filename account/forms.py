@@ -42,3 +42,14 @@ class ProfileEditForm(forms.ModelForm):
             'state': 'Estado',
             'date_of_birth': 'Data de nascimento',
         }
+
+
+class SearchForm(forms.Form):
+    CHOICES = [('1', 'Membros'), ('2', 'Itens')]
+    query = forms.CharField(
+        label='',
+        widget=forms.TextInput(attrs={'placeholder': 'Digite um termo para pesquisar'}),
+    )
+    choice_field = forms.ChoiceField(
+        widget=forms.RadioSelect, choices=CHOICES, label='',
+    )

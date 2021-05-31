@@ -68,10 +68,7 @@ class Evaluation(models.Model):
         choices=CHOICES,
     )
     comment = models.CharField(max_length=255, blank=True, default='')
-    #####
-    # total_likes = models.PositiveIntegerField(default=0)
     likes = models.ManyToManyField(User, related_name='likes')
-    #####
     created = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -79,25 +76,3 @@ class Evaluation(models.Model):
 
     def __str__(self):
         return f"{self.user} rated ~> {self.item}"
-
-
-# class Like(models.Model):
-
-#     user = models.ForeignKey(
-#         User,
-#         on_delete=models.CASCADE,
-#         related_name='likes')
-#     evaluation = models.ForeignKey(
-#         Evaluation,
-#         on_delete=models.CASCADE,
-#         related_name='likes')
-
-#     created = models.DateTimeField(auto_now_add=True)
-
-#     class Meta:
-#         constraints = [
-#             models.UniqueConstraint(fields=['user', 'evaluation'], name="unique_like"),
-#         ]
-
-#     def __str__(self):
-#         return f"{self.user} liked ~> {self.evaluation}"

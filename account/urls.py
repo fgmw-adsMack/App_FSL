@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^password/$', views.change_password, name='change_password'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('<slug:slug>', views.profile_detail, name='profile_detail'),
+    path('search/', views.members_itens_search, name='search'),
 ]

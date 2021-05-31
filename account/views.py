@@ -1,12 +1,22 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.db import transaction
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
-from .forms import UserCreateForm, ProfileCreateForm, ProfileEditForm
+from django.shortcuts import (
+    render,
+    redirect,
+    get_object_or_404,
+    HttpResponseRedirect,
+)
+from .forms import (
+    UserCreateForm,
+    ProfileCreateForm,
+    ProfileEditForm,
+    SearchForm,
+)
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from .models import Profile
-from items.models import Evaluation
+from items.models import Item, Evaluation
 
 
 def index(request):
@@ -114,4 +124,28 @@ def profile_detail(request, slug):
         request,
         'account/profile_detail.html',
         {'profile': profile, 'evals': evals},
+    )
+
+
+@login_required
+def members_itens_search(request):
+    form = SearchForm()
+    query = None
+    results = []
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            option = form.cleaned_data['choice_field']
+            query = form.cleaned_data['query']
+            if option == '1':
+                results = Profile.objects.filter(full_name__contains=query)
+            else:
+                results = Item.objects.filter(title__contains=query)
+    return render(
+        request,
+        'search/search.html',
+        {'form': form,
+        'query': query,
+        'results': results,
+        'section': 'search'},
     )

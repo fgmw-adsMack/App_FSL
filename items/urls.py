@@ -7,11 +7,7 @@ urlpatterns = [
     path('register_movie/', views.register_movie, name='register_movie'),
     path('register_book/', views.register_book, name='register_book'),
     path('register_series/', views.register_series, name='register_series'),
-    # path('<int:pk>', ItemDetailView.as_view(), name='item_detail'),
     path('<int:item_id>', views.detail, name='item_detail'),
     path('<int:item_id>/evaluation', views.evaluation, name='evaluation'),
     url('^like/$', views.like, name='like'),
-    # url(r'^.*/(?P<eval_id>[0-9])/like/$', views.like, name='like'),
-    # url(r'^.*/(?P<eval_id>[0-9])/dislike/$', views.dislike, name='dislike'),
-
 ]
